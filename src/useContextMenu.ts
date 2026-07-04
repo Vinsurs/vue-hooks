@@ -11,12 +11,11 @@ interface UseContextMenuOpts {
    * @returns 
    * @example 
    * 
-   * ```vue
-   * <!-- 图片右键菜单 -->
+   * ```html
       <div class="context-menu" v-show="showContextMenu" ref="contextMenuRef"
         :style="{ left: contextMenuPosition.x + 'px', top: contextMenuPosition.y + 'px' }">
         <div v-for="item of contextMenus" :key="item.key" class="context-menu-item"
-          @click="handleContextMenuClick(item.key)">{{ item.text }}</div>
+          v-on:click="handleContextMenuClick(item.key)">{{ item.text }}</div>
       </div>
       <script setup>
       const { contextMenuRef, showContextMenu, contextMenuPosition, handleContext } = useContextMenu()

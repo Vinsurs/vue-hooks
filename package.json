@@ -4,15 +4,18 @@
   "author": {
     "name": "vinsurs"
   },
-  "version": "0.2.0",
+  "version": "1.0.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/Vinsurs/vue-hooks.git"
   },
   "homepage": "https://github.com/Vinsurs/vue-hooks",
   "keywords": [
-    "vue-hooks",
-    "hooks"
+    "vue hooks",
+    "hooks",
+    "vue",
+    "composables",
+    "composition api"
   ],
   "files": [
     "dist"
@@ -24,22 +27,26 @@
     ".": {
       "import": "./dist/vue-hooks.js",
       "require": "./dist/vue-hooks.umd.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/src/index.d.ts"
     }
   },
-  "types": "./dist/index.d.ts",
+  "types": "./dist/src/index.d.ts",
   "scripts": {
     "build": "vite build"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@types/node": "^20.11.5",
-    "tslib": "^2.6.2",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "@types/throttle-debounce": "^5.0.2",
+    "tslib": "^2.8.1",
+    "typescript": "^6.0.3",
+    "vite": "^7.0.0"
   },
   "peerDependencies": {
     "vue": "^3"
+  },
+  "optionalDependencies": {
+    "vue-router": "^4 || ^5"
   },
   "license": "MIT",
   "publishConfig": {
@@ -47,6 +54,13 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "array-move": "^4.0.0"
+    "@vinsurs/case-anything": "^0.1.1",
+    "@vinsurs/p-limit": "^0.1.1",
+    "@vueuse/core": "^14.3.0",
+    "array-move": "^4.0.0",
+    "dataurl-file": "^0.3.1",
+    "resize-detector": "^0.3.0",
+    "throttle-debounce": "^5.0.2",
+    "vue-request": "^2.0.4"
   }
 }

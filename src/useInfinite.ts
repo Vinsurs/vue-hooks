@@ -1,9 +1,10 @@
-import { ref, toValue, type MaybeRefOrGetter, watch } from "vue"
+import { ref, toValue, watch, type MaybeRefOrGetter } from "vue"
 
 interface Fetcher<D = any> {
   (...args: unknown[]): Promise<D>
 }
 export function useInfinite<D = any>(fetcher: Fetcher<D>, hasNext: MaybeRefOrGetter<boolean>, options?: IntersectionObserverInit) {
+  const pristine = ref<boolean>(true)
   const active = ref<boolean>(true)
   const loading = ref<boolean>(false)
   const target = ref<HTMLElement>()
@@ -36,7 +37,8 @@ export function useInfinite<D = any>(fetcher: Fetcher<D>, hasNext: MaybeRefOrGet
         loading.value = true
         return await fetcher(...args)
       } finally {
-        loading.value = false
+        pristine.value = false
+        closeLoading()
       }
     }
   }
@@ -47,6 +49,8 @@ export function useInfinite<D = any>(fetcher: Fetcher<D>, hasNext: MaybeRefOrGet
     closeLoading,
     enable,
     disable,
-    trigger
+    trigger,
+    /** Whether the infinite scroll is pristine (has not been triggered yet) */
+    pristine
   }
 }

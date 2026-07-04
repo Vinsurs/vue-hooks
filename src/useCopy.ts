@@ -1,11 +1,5 @@
 import { toValue, type MaybeRefOrGetter } from "vue";
 
-interface UseCopyOptions {
-  /**
-   * @default true
-   */
-  tip?: boolean
-}
 // @ts-ignore
 let copyFn = function (toBeCopied: string) {
   if (typeof navigator.clipboard === "object" && window.isSecureContext) {
@@ -32,15 +26,15 @@ let copyFn = function (toBeCopied: string) {
   }
   return copyFn(toBeCopied)
 }
-export function useCopy(text: MaybeRefOrGetter, opts?: UseCopyOptions) {
-  opts = {
-    tip: true,
-    ...opts
-  }
+export function useCopy(text: MaybeRefOrGetter) {
   function copy(): Promise<void> {
     return copyFn(toValue(text))
   }
+  function originalCopy(text: string): Promise<void> {
+    return copyFn(text)
+  }
   return {
-    copy
+    copy,
+    originalCopy
   }
 }

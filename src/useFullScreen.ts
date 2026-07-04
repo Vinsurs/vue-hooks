@@ -1,7 +1,8 @@
-import { onMounted, onUnmounted, ref, Ref } from "vue"
+import { MaybeRefOrGetter, onMounted, onUnmounted, ref, toValue } from "vue"
 
-export function useFullScreen(target: Ref<HTMLElement>) {
-    const isFullScreen = ref(!!getFullScreenElement())
+export function useFullScreen(target: MaybeRefOrGetter<HTMLElement>) {
+    const hasFullScreen = ref(!!getFullScreenElement())
+    const isFullScreen = ref(getIsFullScreen())
     onMounted(() => {
         window.document.addEventListener("fullscreenchange", fullscreenchangeHandler, false)
     })
@@ -9,8 +10,8 @@ export function useFullScreen(target: Ref<HTMLElement>) {
         window.document.removeEventListener("fullscreenchange", fullscreenchangeHandler, false)
     })
     function enterFullScreen() {
-        if (target.value && target.value.requestFullscreen) {
-            target.value.requestFullscreen()
+        if (toValue(target) && toValue(target).requestFullscreen) {
+            toValue(target).requestFullscreen()
         }
     }
     function exitFullScreen() {
@@ -29,9 +30,15 @@ export function useFullScreen(target: Ref<HTMLElement>) {
         return document.fullscreenElement
     }
     function fullscreenchangeHandler() {
-        isFullScreen.value = !!document.fullscreenElement
+        hasFullScreen.value = !!document.fullscreenElement
+        isFullScreen.value = getIsFullScreen()
+    }
+    function getIsFullScreen() {
+        const element = getFullScreenElement()
+        return Boolean(element && element === toValue(target))
     }
     return {
+        hasFullScreen,
         isFullScreen,
         getFullScreenElement,
         enterFullScreen,

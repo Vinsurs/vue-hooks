@@ -1,12 +1,14 @@
-import { onMounted, onUnmounted, Ref } from "vue"
+import { onMounted, onUnmounted, Ref, watchEffect } from "vue"
 
 export function useSelection(el: Ref<HTMLElement>, selectionChangeHandler: (selection: Selection | null) => any) {
-    onMounted(() => {
-        attachEvents()
-    })
-    onUnmounted(() => {
-        detachEvent()
-    })
+    onMounted(attachEvents)
+    onUnmounted(detachEvent)
+    watchEffect((onCleanup) => {
+        onCleanup(detachEvent)
+        if (el.value) {
+            attachEvents()
+        }
+    }, { flush: 'post' })
     function attachEvents() {
         if (el.value) {
             el.value.addEventListener('mousedown', handleMousedown)
