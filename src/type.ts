@@ -6,6 +6,9 @@ export type IOption<T extends number | string | boolean> = {
     value: T;
     label: string;
 }
+export interface NestedIOption<T extends number | string> extends IOption<T> {
+  children?: NestedIOption<T>[]
+}
 export type IArrayable<T> = T[] | T
 export type Recordable<T = any> = Record<string, T>
 export type INullable<T> = T | null

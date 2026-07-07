@@ -7,7 +7,7 @@ interface StepHandler<T> {
 }
 export function usePrevNext<T extends number | string>(
   list: MaybeRefOrGetter<T[]>,
-  initialValue?: T,
+  initialValue?: NoInfer<T>,
 ) {
   const current = ref<MaybeUndefined<T>>(initialValue);
   const disableState = computed(() => {

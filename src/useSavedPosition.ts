@@ -1,10 +1,10 @@
-import { onActivated, ref, unref, type MaybeRef } from "vue";
+import { ref, unref, type MaybeRef } from "vue";
 
 type Position = { x: number; y: number; }
 type Target = Window | Element | null | undefined
 type TargetEl = MaybeRef<Target>
 /**
- * **Note**: this hook is dependent on `vue-router`
+ * **Note**: this hook is designed to be used with `vue-router`
  */
 export function useSavedPosition(target?: TargetEl, initialPosition?: Position) {
   const position = ref<Position>(initialPosition ?? { x: 0, y: 0 });
@@ -29,13 +29,9 @@ export function useSavedPosition(target?: TargetEl, initialPosition?: Position) 
       behavior: 'instant'
     })
   }
-  onActivated(() => {
-    resumePosition()
-  })
-  import('vue-router').then(({ onBeforeRouteLeave }) => {
-    onBeforeRouteLeave(() => {
-      savePosition()
-    })
-  })
-  return position
+  return {
+    position,
+    onActivated: resumePosition,
+    onBeforeRouteLeave: savePosition
+  }
 }

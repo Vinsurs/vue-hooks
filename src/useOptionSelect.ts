@@ -6,7 +6,7 @@ interface UseSelectOpts<V extends (number | string)> {
   mode?: "single" | "multiple"
   /** @default true */
   treatAll?: boolean
-  allValue?: V
+  allValue?: NoInfer<V>
   availableOptions: MaybeRefOrGetter<IOption<V>[]>
   /** @default true */
   rollbackSync?: boolean

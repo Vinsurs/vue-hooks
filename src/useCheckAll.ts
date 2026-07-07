@@ -2,10 +2,9 @@ import { MaybeRefOrGetter, Ref, ref, toValue, watch } from "vue";
 
 export function useCheckAll<T>(
   availableChecks: MaybeRefOrGetter<T[]>,
-  defaultSelectedKeys?: T[],
+  defaultSelectedKeys?: NoInfer<T[]>,
 ) {
   defaultSelectedKeys = defaultSelectedKeys || [];
-  /** For update this, please use `setSelectedKeys` method. */
   const selectedKeys = ref<T[]>(defaultSelectedKeys.concat());
   const state = ref({
     indeterminate: true,
@@ -44,6 +43,7 @@ export function useCheckAll<T>(
     selectedKeys.value = []
   }
   return {
+    /** To update this, please use `setSelectedKeys` method. */
     selectedKeys,
     setSelectedKeys,
     state,

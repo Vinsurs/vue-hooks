@@ -1,5 +1,5 @@
 import { arrayMoveMutable } from 'array-move'
-import { ArrayPredicate, IOption } from '../type'
+import { ArrayPredicate, IOption, NestedIOption } from '../type'
 
 export { debounce, throttle } from "throttle-debounce"
 export { addListener, removeListener } from 'resize-detector'
@@ -213,24 +213,22 @@ export function getPasswordRulesRawCodeString() {
  * @template T - The type of the value in the option.
  * @param list - The array of option objects to search.
  * @param target - The target value to find for.
- * @param seeds - The array of seed objects to store the path to the target value.
+ * @param path - The array of path objects to store the path to the target value.
  */
-export function find<T extends string | number>(list: IOption<T>[], target: T, seeds: IOption<T>[]) {
+export function find<T extends string | number>(list: NestedIOption<T>[], target: NoInfer<T>, path: IOption<T>[]) {
     for (let i = 0; i < list.length; i++) {
         const r = list[i]
-        // @ts-ignore
         if ((!r.children || r.children.length === 0) && Object.is(r.value, target)) {
-            seeds.unshift({
+            path.unshift({
                 value: r.value!,
                 label: r.label!
             })
             return r.value
         }
         if (r.children) {
-            // @ts-ignore
-            const cId = _find(r.children, target, seeds)
+            const cId = find(r.children, target, path)
             if (cId) {
-                seeds.unshift({
+                path.unshift({
                     value: r.value!,
                     label: r.label!
                 })

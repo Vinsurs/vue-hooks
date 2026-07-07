@@ -11,12 +11,11 @@ export default defineConfig({
       fileName: 'vue-hooks',
     },
     rollupOptions: {
-      external: ['vue', 'vue-router'],
+      external: ['vue'],
       output: {
         dir: resolve(__dirname, "dist"),
         globals: {
-          'vue': 'Vue',
-          'vue-router': 'VueRouter'
+          'vue': 'Vue'
         }
       },
       plugins: [typescript()],
